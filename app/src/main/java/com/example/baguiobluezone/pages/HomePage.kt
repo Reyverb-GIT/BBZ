@@ -9,12 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.baguiobluezone.ui.theme.White
 
 @Composable
 fun HomePage(modifier: Modifier = Modifier) {
     Column (
         modifier = Modifier.fillMaxSize()
-            .background(Color(0xF04B93D3)),
+            .background(White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

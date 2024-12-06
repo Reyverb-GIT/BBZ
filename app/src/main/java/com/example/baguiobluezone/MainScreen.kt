@@ -1,7 +1,10 @@
 package com.example.baguiobluezone
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,6 +15,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +25,7 @@ import com.example.baguiobluezone.news.NewsPage
 import com.example.baguiobluezone.news.NewsViewModel
 import com.example.baguiobluezone.pages.UserPage
 import com.example.baguiobluezone.ui.theme.Blue
+import com.example.baguiobluezone.ui.theme.White
 import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 
@@ -82,17 +87,29 @@ fun ShowText(x0: String) {
 
 @Composable
 fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
-    // Move only the fabIcon and bottom nav icons
-    Box(modifier = Modifier.offset(y = (-0).dp)) {
-        RioBottomNavigation(
-            fabIcon = ImageVector.vectorResource(id = R.drawable.qr_default),
-            buttons = buttons,
-            fabSize = 80.dp,
-            barHeight = 80.dp,
-            selectedItemColor = Blue,
-            fabBackgroundColor = Blue
+        Box(
+            modifier = Modifier
+                .offset(y = (70).dp)
+                .fillMaxWidth()
+                .height(50.dp)  // Same height as the nav bar
+                .background(color = White, shape = RectangleShape) // Rectangle shape with desired color
         )
+
+        // RioBottomNavigation on top of the rectangle
+        Box(modifier = Modifier.offset(y = (-25).dp)) {
+            RioBottomNavigation(
+                fabIcon = ImageVector.vectorResource(id = R.drawable.qr_default),
+                buttons = buttons,
+                fabSize = 80.dp,
+                barHeight = 70.dp,
+                selectedItemColor = Blue,
+                fabBackgroundColor = Blue,
+                backgroundColor = White,
+                cardElevation = 0.dp,
+
+            )
+        }
     }
-}
+
 
 
