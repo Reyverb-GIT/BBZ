@@ -2,6 +2,7 @@ package com.example.baguiobluezone.news
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -57,6 +58,13 @@ fun NewsHomePage(newsViewModel: NewsViewModel, navController: NavHostController)
             items(articles) {article->
                 ArticleItem(article, navController)
 
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                ) {}
             }
         }
     }
