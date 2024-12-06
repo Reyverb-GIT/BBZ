@@ -4,6 +4,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,12 +44,17 @@ import coil3.compose.AsyncImage
 import com.kwabenaberko.newsapilib.models.Article
 
 @Composable
-fun NewsHomePage(newsViewModel: NewsViewModel, navController: NavHostController) {
+fun NewsHomePage(
+    newsViewModel: NewsViewModel,
+    navController: NavHostController,
+    innerPadding: PaddingValues
+) {
 
     val articles by newsViewModel.articles.observeAsState(emptyList())
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         CategoriesBar(newsViewModel)
 
@@ -57,7 +63,6 @@ fun NewsHomePage(newsViewModel: NewsViewModel, navController: NavHostController)
         ) {
             items(articles) {article->
                 ArticleItem(article, navController)
-
             }
             item {
                 Box(
@@ -142,9 +147,9 @@ fun CategoriesBar(newsViewModel: NewsViewModel) {
     ) {
         if(isSearchExpanded) {
             OutlinedTextField(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier
                     .height(48.dp)
-                    .border(1.dp, Color.Black, CircleShape)
+                    .border(1.dp, Color.Blue, CircleShape)
                     .clip(CircleShape),
 
                 value = searchQuery,

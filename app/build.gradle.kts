@@ -70,5 +70,12 @@ dependencies {
     implementation(libs.ktor.client.serialization.jvm)
     implementation(libs.ktor.client.logging)
     implementation (libs.gson)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.content.negotiation)
+
+
+
 
 }

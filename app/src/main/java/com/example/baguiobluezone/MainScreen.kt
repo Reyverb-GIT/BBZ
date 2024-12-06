@@ -2,6 +2,7 @@ package com.example.baguiobluezone
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,11 +16,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.example.baguiobluezone.pages.FoodPage
+import com.example.baguiobluezone.foodhub.recipe.viewmodel.RecipeViewModel
+import com.example.baguiobluezone.foodhub.recipe.screens.FoodPage
 import com.example.baguiobluezone.pages.HomePage
 import com.example.baguiobluezone.news.NewsPage
 import com.example.baguiobluezone.news.NewsViewModel
@@ -30,7 +33,7 @@ import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
 import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 
 @Composable
-fun MainScreen(newsViewModel: NewsViewModel) {
+fun MainScreen(newsViewModel: NewsViewModel, recipeViewModel: RecipeViewModel) {
     val items = listOf(
         R.drawable.home_default,
         R.drawable.explore_default,
@@ -64,18 +67,23 @@ fun MainScreen(newsViewModel: NewsViewModel) {
             BottomNavigationBar(buttons = buttons)
         },
         modifier = Modifier.fillMaxSize()
-    ) { innerPadding ->
+    ) { paddingValues ->
         // Handle the screen content based on the selected index
-        ContentScreen(selectedIndex = selectedIndex, modifier = Modifier.padding(innerPadding), newsViewModel = newsViewModel)
+        ContentScreen(
+            selectedIndex = selectedIndex,
+            paddingValues = paddingValues,
+            newsViewModel = newsViewModel,
+            recipeViewModel = recipeViewModel
+        )
     }
 }
 
 @Composable
-fun ContentScreen(selectedIndex: Int, modifier: Modifier = Modifier, newsViewModel: NewsViewModel) {
+fun ContentScreen(selectedIndex: Int, paddingValues: PaddingValues, newsViewModel: NewsViewModel,recipeViewModel: RecipeViewModel) {
     when (selectedIndex) {
         0 -> HomePage()
-        1 -> NewsPage(newsViewModel)
-        2 -> FoodPage()
+        1 -> NewsPage(newsViewModel,paddingValues)
+        2 -> FoodPage(recipeViewModel)
         3 -> UserPage()
     }
 }
