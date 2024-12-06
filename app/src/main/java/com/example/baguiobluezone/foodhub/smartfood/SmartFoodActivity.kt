@@ -1,4 +1,4 @@
-package com.example.b2z
+package com.example.baguiobluezone.foodhub.smartfood
 
 import android.os.Bundle
 import android.view.View
