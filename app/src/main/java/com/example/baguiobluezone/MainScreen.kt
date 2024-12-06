@@ -1,76 +1,98 @@
 package com.example.baguiobluezone
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import com.example.baguiobluezone.pages.FoodPage
 import com.example.baguiobluezone.pages.HomePage
 import com.example.baguiobluezone.news.NewsPage
 import com.example.baguiobluezone.news.NewsViewModel
+import com.example.baguiobluezone.pages.UserPage
+import com.example.baguiobluezone.ui.theme.Blue
+import com.rahad.riobottomnavigation.composables.RioBottomNavItemData
+import com.rahad.riobottomnavigation.composables.RioBottomNavigation
 
 @Composable
 fun MainScreen(newsViewModel: NewsViewModel) {
-
-
-    val navItemList = listOf(
-        NavItem("Home", Icons.Default.Home),
-        NavItem("News", Icons.Default.Star),
-        NavItem("Food", Icons.Default.ShoppingCart)
+    val items = listOf(
+        R.drawable.home_default,
+        R.drawable.explore_default,
+        R.drawable.food_hub_default,
+        R.drawable.user_profile_default,
     )
 
-    var selectedIndex by remember {
-        mutableIntStateOf(0)
+    val labels = listOf(
+        " ",
+        " ",
+        " ",
+        " "
+    )
+
+    // Use rememberSaveable to retain state across configuration changes
+    var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    // Create RioBottomNavItemData for the bottom navigation buttons
+    val buttons = items.mapIndexed { index, iconData ->
+        RioBottomNavItemData(
+            imageVector = ImageVector.vectorResource(iconData),
+            selected = index == selectedIndex,
+            onClick = { selectedIndex = index },  // Correct way to update state
+            label = labels[index]
+        )
     }
 
+    // Main Scaffold setup
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            NavigationBar {
-                navItemList.forEachIndexed { index, navItem ->
-                    NavigationBarItem(
-                        selected = selectedIndex == index ,
-                        onClick = {
-                            selectedIndex = index
-                        },
-                        icon = {
-                            Icon(imageVector =navItem.icon, contentDescription = "Icon")
-                        },
-                        label = {
-                            Text(text = navItem.label)
-                        }
-                    )
-                }
-            }
-        }
+            BottomNavigationBar(buttons = buttons)
+        },
+        modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        ContentScreen(
-            modifier = Modifier
-                .padding(innerPadding),
-            selectedIndex,
-            newsViewModel
+        // Handle the screen content based on the selected index
+        ContentScreen(selectedIndex = selectedIndex, modifier = Modifier.padding(innerPadding), newsViewModel = newsViewModel)
+    }
+}
+
+@Composable
+fun ContentScreen(selectedIndex: Int, modifier: Modifier = Modifier, newsViewModel: NewsViewModel) {
+    when (selectedIndex) {
+        0 -> HomePage()
+        1 -> NewsPage(newsViewModel)
+        2 -> FoodPage()
+        3 -> UserPage()
+    }
+}
+
+@Composable
+fun ShowText(x0: String) {
+    Text(text = x0, modifier = Modifier.padding(16.dp))
+}
+
+@Composable
+fun BottomNavigationBar(buttons: List<RioBottomNavItemData>) {
+    // Move only the fabIcon and bottom nav icons
+    Box(modifier = Modifier.offset(y = (-0).dp)) {
+        RioBottomNavigation(
+            fabIcon = ImageVector.vectorResource(id = R.drawable.qr_default),
+            buttons = buttons,
+            fabSize = 80.dp,
+            barHeight = 80.dp,
+            selectedItemColor = Blue,
+            fabBackgroundColor = Blue
         )
     }
 }
 
-@Composable
-fun ContentScreen(modifier: Modifier = Modifier, selectedIndex: Int, newsViewModel: NewsViewModel) {
-    when(selectedIndex){
-        0 -> HomePage()
-        1 -> NewsPage(newsViewModel)
-        2 -> FoodPage()
-    }
-}
+

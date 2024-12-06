@@ -42,6 +42,7 @@ android {
 
 dependencies {
 
+    implementation ("com.github.0xRahad:RioBottomNavigation:1.0.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
